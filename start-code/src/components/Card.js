@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 
 class Card extends Component {
-  state = { value: 0 };
+  state = { value: 1 };
+
   addToList = () => {
     let item = { ...this.props.item, value: this.state.value };
     this.props.add(item);
+    this.setState({ value: 1 });
+  };
+
+  deleteFromApp = () => {
+    this.props.deleteFromApp(this.props.item);
   };
   updateQuantity = e => {
     this.setState({ value: e.target.value });
@@ -42,6 +48,13 @@ class Card extends Component {
                   +
                 </button>
               </div>
+              <button
+                className="button "
+                style={{ marginLeft: "20px" }}
+                onClick={this.deleteFromApp}
+              >
+                <i className="far fa-trash-alt"></i>
+              </button>
             </div>
           </div>
         </article>

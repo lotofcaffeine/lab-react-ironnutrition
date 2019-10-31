@@ -4,6 +4,7 @@ import FoodsHandler from "../api/FoodsHandler";
 import SearchBar from "./SearchBar";
 import Form from "./Form";
 import CardList from "./CardList";
+import FoodList from "./FoodList";
 class App extends React.Component {
   api = new DataHandler();
   foodApi = new FoodsHandler();
@@ -11,12 +12,25 @@ class App extends React.Component {
   state = {
     data: this.api.values(),
     myFood: this.foodApi.values(),
-    toggleModal: false
+    showModal: false
   };
 
-  addMyFood = item => {
-    console.log(item);
-    this.foodApi.addItem(item);
+  deleteFromApp = item => {
+    this.api.delete(item);
+    this.setState({ data: this.api.values() });
+  };
+  addToMyFood = item => {
+    this.foodApi.addFood(item);
+    this.setState({ myFood: this.foodApi.values() });
+  };
+
+  addToApp = item => {
+    this.api.addFood(item);
+    this.setState({ data: this.api.values(), showModal: false });
+  };
+
+  deleteFromMyFood = item => {
+    this.foodApi.delete(item);
     this.setState({ myFood: this.foodApi.values() });
   };
   onSearchSubmit = term => {
@@ -24,12 +38,12 @@ class App extends React.Component {
   };
 
   toggleModal = () => {
-    this.setState({ toggleModal: !this.state.toggleModal });
+    this.setState({ showModal: !this.state.showModal });
   };
 
   render() {
     return (
-      <section className="section">
+      <section className="section ">
         <div className="container">
           <h1 className="title">IronNutrition</h1>
           <SearchBar
@@ -42,25 +56,24 @@ class App extends React.Component {
                 <div className="column">
                   <CardList
                     array={this.state.data}
-                    add={this.addMyFood}
+                    add={this.addToMyFood}
+                    deleteFromApp={this.deleteFromApp}
                   ></CardList>
                 </div>
                 <div className="column">
                   <div>
-                    <p className="title">Today's food</p>
-                    <ul>
-                      {this.state.myFood.map((item, i) => {
-                        return (
-                          <li key={i}>
-                            {item.value}({item.name}): {item.value} *{" "}
-                            {item.calories} = {item.value * item.calories}cal
-                          </li>
-                        );
-                      })}
-                    </ul>
-                    <p className="subtitle">Total: 1600 cal</p>
+                    <FoodList
+                      array={this.state.myFood}
+                      deleteFromMyFood={this.deleteFromMyFood}
+                    ></FoodList>
                   </div>
-                  <Form />
+                  <button onClick={this.toggleModal}> Add</button>
+                  {this.state.showModal && (
+                    <Form
+                      toggleModal={this.toggleModal}
+                      addToApp={this.addToApp}
+                    />
+                  )}
                 </div>
               </div>
             </div>

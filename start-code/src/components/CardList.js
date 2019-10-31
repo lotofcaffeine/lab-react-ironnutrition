@@ -5,7 +5,12 @@ import "./CardList.css";
 class CardList extends Component {
   render() {
     const cards = this.props.array.map((item, i) => (
-      <Card key={i} item={item} add={this.props.add} />
+      <Card
+        key={i}
+        item={item}
+        add={this.props.add}
+        deleteFromApp={this.props.deleteFromApp}
+      />
     ));
     return cards;
   }

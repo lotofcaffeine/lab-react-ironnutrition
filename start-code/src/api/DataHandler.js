@@ -3,9 +3,19 @@ class DataHandler {
   constructor() {
     this.data = data;
   }
-
   values = () => {
     return this.data;
+  };
+  delete = food => {
+    let index = this.data.findIndex(item => {
+      return item.name === food.name && item.calories === food.calories;
+    });
+    this.data.splice(index, 1);
+    console.log(this.data);
+  };
+
+  addFood = item => {
+    this.data.push(item);
   };
 
   searchBy = term => {
