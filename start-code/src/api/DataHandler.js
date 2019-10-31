@@ -22,6 +22,7 @@ class DataHandler {
     if (term === "") {
       return this.data;
     }
+    debugger;
     let response = this.data.filter(({ name }) => {
       return name.toLocaleLowerCase().includes(term);
     });

@@ -12,7 +12,8 @@ class App extends React.Component {
   state = {
     data: this.api.values(),
     myFood: this.foodApi.values(),
-    showModal: false
+    showModal: false,
+    term: ""
   };
 
   deleteFromApp = item => {
@@ -34,7 +35,7 @@ class App extends React.Component {
     this.setState({ myFood: this.foodApi.values() });
   };
   onSearchSubmit = term => {
-    this.setState({ data: this.api.searchBy(term) });
+    this.setState({ data: this.api.searchBy(term), term: term });
   };
 
   toggleModal = () => {
@@ -47,6 +48,7 @@ class App extends React.Component {
         <div className="container">
           <h1 className="title">IronNutrition</h1>
           <SearchBar
+            term={this.state.term}
             onSearch={this.onSearchSubmit}
             placeholder="Search your food"
           ></SearchBar>

@@ -9,8 +9,8 @@ class SearchBar extends React.Component {
   };
 
   onInputChange = e => {
-    this.setState({ term: e.target.value });
-    // this.props.onSearch(this.state.term);
+    // this.setState({ term: e.target.value });
+    this.props.onSearch(e.target.value);
   };
 
   render() {
@@ -21,7 +21,7 @@ class SearchBar extends React.Component {
             <input
               className="input"
               type="text"
-              value={this.state.term}
+              value={this.props.term}
               onChange={this.onInputChange}
               placeholder={this.props.placeholder}
             />
