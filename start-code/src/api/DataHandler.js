@@ -9,6 +9,9 @@ class DataHandler {
   };
 
   searchBy = term => {
+    if (term === "") {
+      return this.data;
+    }
     let response = this.data.filter(({ name }) => {
       return name.toLocaleLowerCase().includes(term);
     });

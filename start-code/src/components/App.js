@@ -1,19 +1,30 @@
 import React from "react";
-import DataHandler from "./DataHandler";
+import DataHandler from "../api/DataHandler";
+import FoodsHandler from "../api/FoodsHandler";
 import SearchBar from "./SearchBar";
-import Card from "./Card";
-
+import Form from "./Form";
+import CardList from "./CardList";
 class App extends React.Component {
   api = new DataHandler();
-  state = { data: this.api.values() };
+  foodApi = new FoodsHandler();
 
-  onSearchSubmit = term => {
-    this.setState({ data: this.api.searchBy(term) });
-    this.listCards();
+  state = {
+    data: this.api.values(),
+    myFood: this.foodApi.values(),
+    toggleModal: false
   };
 
-  listCards = () => {
-    this.state.data.map((item, i) => <Card />);
+  addMyFood = item => {
+    console.log(item);
+    this.foodApi.addItem(item);
+    this.setState({ myFood: this.foodApi.values() });
+  };
+  onSearchSubmit = term => {
+    this.setState({ data: this.api.searchBy(term) });
+  };
+
+  toggleModal = () => {
+    this.setState({ toggleModal: !this.state.toggleModal });
   };
 
   render() {
@@ -29,22 +40,27 @@ class App extends React.Component {
             <div className="container">
               <div className="columns">
                 <div className="column">
-                  {this.state.data.map((item, i) => (
-                    <Card
-                      key={i}
-                      image={item.image}
-                      title={item.name}
-                      subtitle={item.calories}
-                    />
-                  ))}
+                  <CardList
+                    array={this.state.data}
+                    add={this.addMyFood}
+                  ></CardList>
                 </div>
                 <div className="column">
-                  <p className="title">Today's food</p>
-                  <ul>
-                    <li>2 Hamburger = 800 </li>
-                    <li>2 Hamburger = 800 </li>
-                  </ul>
-                  <p className="subtitle">Total: 1600 cal</p>
+                  <div>
+                    <p className="title">Today's food</p>
+                    <ul>
+                      {this.state.myFood.map((item, i) => {
+                        return (
+                          <li key={i}>
+                            {item.value}({item.name}): {item.value} *{" "}
+                            {item.calories} = {item.value * item.calories}cal
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <p className="subtitle">Total: 1600 cal</p>
+                  </div>
+                  <Form />
                 </div>
               </div>
             </div>
