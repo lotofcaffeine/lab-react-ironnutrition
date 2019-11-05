@@ -5,6 +5,8 @@ import SearchBar from "./SearchBar";
 import Form from "./Form";
 import CardList from "./CardList";
 import FoodList from "./FoodList";
+import logo from "../logo.svg";
+
 class App extends React.Component {
   api = new DataHandler();
   foodApi = new FoodsHandler();
@@ -45,8 +47,39 @@ class App extends React.Component {
   render() {
     return (
       <section className="section ">
+        <nav className="navbar" role="navigation" aria-label="main navigation">
+          <div className="navbar-brand">
+            <img src={logo} style={{ height: "10vmin" }} alt="logo" />
+          </div>
+          <div className="navbar-menu">
+            <div className="navbar-start">
+              <a className="navbar-item">LinusNutrition</a>
+              <a className="navbar-item">LinusCountries</a>
+              <a className="navbar-item">LinusBeers</a>
+              <a className="navbar-item">TodoList</a>
+            </div>
+            <div className="navbar-end">
+              <div className="navbar-item">
+                <div className="field is-grouped">
+                  <p className="control">
+                    <a className="navbar-item">Register</a>
+                  </p>
+                  <p className="control">
+                    <a className="navbar-item">Login</a>
+                  </p>
+                  <p className="control">
+                    <a className="navbar-item">Settings</a>
+                  </p>
+                  <p className="control">
+                    <a className="navbar-item">Logout</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
         <div className="container">
-          <h1 className="title">IronNutrition</h1>
+          <h1 className="title">LinusNutrition</h1>
           <SearchBar
             term={this.state.term}
             onSearch={this.onSearchSubmit}
